@@ -1,0 +1,72 @@
+public class Inventory
+{
+    private List<Item> _items;
+    public const int MaxCapacity = 20;
+
+    public IReadOnlyList<Item> Items => _items.AsReadOnly();
+    public int Count => _items.Count;
+    public bool IsFull => _items.Count >= MaxCapacity;
+
+    public Inventory()
+    {
+        _items = new List<Item>();
+    }
+
+    public bool AddItem(Item item)
+    {
+        if (item == null) throw new ArgumentNullException(nameof(item));
+        
+        if (IsFull)
+        {
+            Console.WriteLine("Inventory is full!");
+            return false;
+        }
+
+        _items.Add(item);
+        return true;
+    }
+
+    public bool RemoveItem(Item item)
+    {
+        return _items.Remove(item);
+    }
+
+    public bool RemoveItem(string itemName)
+    {
+        var item = _items.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+        return item != null && _items.Remove(item);
+    }
+
+    public Item FindItem(string name)
+    {
+        return _items.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+    }
+
+    // LINQ Examples
+    public IEnumerable<Weapon> GetWeapons()
+    {
+        return _items.OfType<Weapon>();
+    }
+
+    public IEnumerable<Potion> GetPotions()
+    {
+        return _items.OfType<Potion>();
+    }
+
+    public Weapon GetStrongestWeapon()
+    {
+        return GetWeapons().OrderByDescending(w => w.Damage).FirstOrDefault();
+    }
+
+    public void DisplayInventory()
+    {
+        if (_items.Count == 0)
+        {
+            Console.WriteLine("Inventory is empty.");
+            return;
+        }
+
+        Console.WriteLine($"Inventory ({_items.Count}/{MaxCapacity}):");
+        _items.ForEach(item => Console.WriteLine($"- {item.Name}: {item.Description}"));
+    }
+}

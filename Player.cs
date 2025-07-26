@@ -1,25 +1,53 @@
-﻿using System.Collections.Generic;
-
-namespace DungeonExplorer
+﻿public class Player : Creature
 {
-    public class Player
+    public Inventory Inventory { get; private set; }
+    public Weapon CurrentWeapon { get; private set; }
+    private int _baseAttackPower;
+
+    public Player(string name, int maxHealth = 100, int baseAttackPower = 10) 
+        : base(name, maxHealth, baseAttackPower)
     {
-        public string Name { get; private set; }
-        public int Health { get; private set; }
-        private List<string> inventory = new List<string>();
+        Inventory = new Inventory();
+        _baseAttackPower = baseAttackPower;
+    }
 
-        public Player(string name, int health) 
-        {
-            Name = name;
-            Health = health;
-        }
-        public void PickUpItem(string item)
-        {
+    public void EquipWeapon(Weapon weapon)
+    {
+        if (weapon == null) throw new ArgumentNullException(nameof(weapon));
+        
+        CurrentWeapon = weapon;
+        AttackPower = _baseAttackPower + weapon.Damage;
+    }
 
-        }
-        public string InventoryContents()
+    public override int Attack()
+    {
+        var random = new Random();
+        int damage = random.Next(AttackPower / 2, AttackPower + 1);
+        return damage;
+    }
+
+    public override string GetAttackDescription()
+    {
+        return CurrentWeapon != null 
+            ? $"{Name} attacks with {CurrentWeapon.Name}!" 
+            : $"{Name} attacks with bare hands!";
+    }
+
+    public void UseItem(string itemName)
+    {
+        var item = Inventory.FindItem(itemName);
+        if (item == null)
         {
-            return string.Join(", ", inventory);
+            Console.WriteLine($"Item '{itemName}' not found in inventory.");
+            return;
+        }
+
+        item.Use(this);
+        
+        // Remove potions after use
+        if (item is Potion)
+        {
+            Inventory.RemoveItem(item);
         }
     }
 }
