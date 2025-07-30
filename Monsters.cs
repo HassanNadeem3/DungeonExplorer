@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public abstract class Monster : Creature
 {
     public int ExperienceReward { get; protected set; }
 
-    protected Monster(string name, int maxHealth, int attackPower, int experienceReward) 
+    protected Monster(string name, int maxHealth, int attackPower, int experienceReward)
         : base(name, maxHealth, attackPower)
     {
         ExperienceReward = experienceReward >= 0 ? experienceReward : throw new ArgumentException("Experience reward cannot be negative");

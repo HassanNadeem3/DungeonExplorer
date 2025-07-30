@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public class Weapon : Item
 {
     public int Damage { get; private set; }
 
-    public Weapon(string name, string description, int damage) 
+    public Weapon(string name, string description, int damage)
         : base(name, description)
     {
         Damage = damage > 0 ? damage : throw new ArgumentException("Weapon damage must be positive");

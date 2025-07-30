@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public abstract class Item : ICollectible
 {
     public string Name { get; protected set; }

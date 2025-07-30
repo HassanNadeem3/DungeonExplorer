@@ -1,10 +1,14 @@
-﻿public class Player : Creature
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Player : Creature
 {
     public Inventory Inventory { get; private set; }
     public Weapon CurrentWeapon { get; private set; }
     private int _baseAttackPower;
 
-    public Player(string name, int maxHealth = 100, int baseAttackPower = 10) 
+    public Player(string name, int maxHealth = 100, int baseAttackPower = 10)
         : base(name, maxHealth, baseAttackPower)
     {
         Inventory = new Inventory();
@@ -14,7 +18,7 @@
     public void EquipWeapon(Weapon weapon)
     {
         if (weapon == null) throw new ArgumentNullException(nameof(weapon));
-        
+
         CurrentWeapon = weapon;
         AttackPower = _baseAttackPower + weapon.Damage;
     }
@@ -28,8 +32,8 @@
 
     public override string GetAttackDescription()
     {
-        return CurrentWeapon != null 
-            ? $"{Name} attacks with {CurrentWeapon.Name}!" 
+        return CurrentWeapon != null
+            ? $"{Name} attacks with {CurrentWeapon.Name}!"
             : $"{Name} attacks with bare hands!";
     }
 
@@ -43,7 +47,7 @@
         }
 
         item.Use(this);
-        
+
         // Remove potions after use
         if (item is Potion)
         {

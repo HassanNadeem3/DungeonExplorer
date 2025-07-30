@@ -1,4 +1,7 @@
-﻿public class Game
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+public class Game
 {
     private Player _player;
     private GameMap _gameMap;
@@ -15,7 +18,7 @@
         Console.WriteLine("Welcome to Dungeon Explorer!");
         Console.Write("Enter your character's name: ");
         string playerName = Console.ReadLine();
-        
+
         if (string.IsNullOrWhiteSpace(playerName))
             playerName = "Hero";
 
@@ -59,7 +62,7 @@
                 return;
             }
 
-            string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string command = parts[0];
             string argument = parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : "";
 
@@ -138,7 +141,7 @@
     private void Attack()
     {
         var aliveMonsters = _currentRoom.Monsters.Where(m => m.IsAlive).ToList();
-        
+
         if (aliveMonsters.Count == 0)
         {
             Console.WriteLine("There are no monsters to fight here.");
@@ -147,9 +150,9 @@
 
         // Fight the strongest monster first
         Monster target = _currentRoom.GetStrongestAliveMonster();
-        
+
         Console.WriteLine($"\n--- Combat with {target.Name} ---");
-        
+
         // Player attacks first
         int playerDamage = _player.Attack();
         Console.WriteLine(_player.GetAttackDescription());
@@ -182,7 +185,7 @@
             return;
         }
 
-        var item = _currentRoom.Items.FirstOrDefault(i => 
+        var item = _currentRoom.Items.FirstOrDefault(i =>
             i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
         if (item == null)

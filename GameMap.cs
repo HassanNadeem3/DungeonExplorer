@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public class GameMap
 {
     private Dictionary<string, Room> _rooms;

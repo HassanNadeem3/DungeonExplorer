@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 public abstract class Creature : IDamageable
 {
     public string Name { get; protected set; }

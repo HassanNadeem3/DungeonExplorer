@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public class Inventory
 {
     private List<Item> _items;
@@ -15,7 +19,7 @@ public class Inventory
     public bool AddItem(Item item)
     {
         if (item == null) throw new ArgumentNullException(nameof(item));
-        
+
         if (IsFull)
         {
             Console.WriteLine("Inventory is full!");
